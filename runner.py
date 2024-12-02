@@ -2,7 +2,7 @@ import time
 from tabulate import tabulate
 from termcolor import colored
 
-from day01.solution import part1, part2
+from day01.xico_solution import part1, part2
 
 def calculate_runtime(func):
     def wrapper(*args, **kwargs):
