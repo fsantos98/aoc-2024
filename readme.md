@@ -3,12 +3,12 @@
 ### Day 1.1
 | Person | Runtime (ms) |
 |--------|--------------|
-| Xico Opt | **0.6432 ms** |
-| Xico | 0.6588 ms (+2.43%) |
+| Xico Opt | **0.6769 ms** |
+| Xico | 0.7316 ms (+8.08%) |
 
 ### Day 1.2
 | Person | Runtime (ms) |
 |--------|--------------|
-| Xico Opt | **0.5618 ms** |
-| Xico | 5.9909 ms (+966.38%) |
+| Xico Opt | **0.6100 ms** |
+| Xico | 7.6744 ms (+1158.02%) |
 
