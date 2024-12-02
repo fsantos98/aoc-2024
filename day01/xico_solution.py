@@ -22,6 +22,7 @@ def part1():
         total_diff += abs(diff)
     return total_diff
 
+
 def part2():
     left_side, right_side = open_file(sort=False)
     similarity_score = 0
