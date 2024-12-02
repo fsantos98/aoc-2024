@@ -37,6 +37,6 @@ jobs:
       run: |
         git add .
         git commit -m "Update README.md via Python script"
-        git push
+        git push origin HEAD:${{ github.head_ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
