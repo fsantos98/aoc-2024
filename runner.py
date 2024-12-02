@@ -2,6 +2,7 @@ import sys
 sys.dont_write_bytecode = True
 
 import time
+import os
 from tabulate import tabulate
 from termcolor import colored
 
@@ -52,19 +53,33 @@ def compare_functions_multirow(function_sets, labels, person_labels, return_stru
     if return_structured:
         return structured_data
 
-def generate_leaderboard(function_sets, person_labels, readme_path):
+def generate_leaderboard(function_sets, person_labels, output_folder):
     # Use the first argument in each function set to determine labels
     labels = [functions[0] for functions in function_sets]
-
     structured_data = compare_functions_multirow(function_sets, labels, person_labels, return_structured=True)
-    leaderboard_lines = []
-    leaderboard_lines.append("# Leaderboard\n\n")
+    
+    # Ensure the output folder exists
+    os.makedirs(output_folder, exist_ok=True)
 
+    # Write to separate Markdown files based on day and part
+    file_content = {}
+    
     for entry in structured_data:
-        label = entry["label"]
-        leaderboard_lines.append(f"### {label}\n")
-        leaderboard_lines.append("| Person | Runtime (ms) |\n")
-        leaderboard_lines.append("|--------|--------------|\n")
+        label = entry["label"]  # e.g., "Day 1.1"
+        day, part = label.split(".")  # Separate "Day 1.1" into "Day 1" and "1.1"
+
+        # Extract and format day number (e.g., "Day 1" -> "day01")
+        day_number = day.split(" ")[1]
+        filename = f"day{int(day_number):02}.md"  # Ensure zero-padded day numbers (e.g., "day01.md")
+        part_title = f"## {part}\n\n"
+
+        if filename not in file_content:
+            file_content[filename] = [f"# Leaderboard for {day}\n\n"]
+
+        leaderboard_section = []
+        leaderboard_section.append(part_title)
+        leaderboard_section.append("| Person | Runtime (ms) |\n")
+        leaderboard_section.append("|--------|--------------|\n")
         
         # Combine person_labels and runtime_data for sorting
         combined_data = [
@@ -76,11 +91,16 @@ def generate_leaderboard(function_sets, person_labels, readme_path):
         
         for person_label, _, formatted_runtime, color in combined_data:
             color_indicator = f"**{formatted_runtime}**" if color == "green" else formatted_runtime
-            leaderboard_lines.append(f"| {person_label} | {color_indicator} |\n")
-        leaderboard_lines.append("\n")
+            leaderboard_section.append(f"| {person_label} | {color_indicator} |\n")
+        leaderboard_section.append("\n")
 
-    with open(readme_path, "w") as readme_file:
-        readme_file.writelines(leaderboard_lines)
+        file_content[filename].extend(leaderboard_section)
+
+    # Write to each file
+    for filename, content in file_content.items():
+        output_path = os.path.join(output_folder, filename)
+        with open(output_path, "w") as output_file:
+            output_file.writelines(content)
 
 # Function sets
 day_one_part1 = ["Day 1.1", day01_part1, day01_part1_opt]
@@ -89,9 +109,11 @@ day_one_part2 = ["Day 1.2", day01_part2, day01_part2_opt]
 # Person labels
 person_labels = ["Xico", "Xico Opt"]
 
+output_folder = "leaderboards"
+
 # Generate leaderboard using first argument as the line label
 generate_leaderboard(
     [day_one_part1, day_one_part2],
     person_labels,
-    "readme.md"
+    output_folder
 )
