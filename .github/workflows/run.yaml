@@ -32,16 +32,19 @@ jobs:
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
         git config --global --add safe.directory $GITHUB_WORKSPACE
-        
-    # Step 6: Pull the latest changes and resolve conflicts if any
+
+
+    - name: Stage and commit changes
+      run: |
+        git add .
+        git commit -m "Update README.md via Python script" || echo "No changes to commit"
+
     - name: Pull latest changes
       run: |
         git pull origin ${{ github.head_ref }} --rebase
 
-    - name: Commit and push changes
+    - name: Push changes
       run: |
-        git add .
-        git commit -m "Update README.md via Python script"
         git push origin HEAD:${{ github.head_ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
