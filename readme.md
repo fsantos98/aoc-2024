@@ -1,14 +1,14 @@
 # Leaderboard
 
-### Day 01 - 1
+### Day 1.1
 | Person | Runtime (ms) |
 |--------|--------------|
-| Xico | **0.6609 ms** |
-| Luis | 5.9425 ms (+799.15%) |
+| Xico Opt | **0.6432 ms** |
+| Xico | 0.6588 ms (+2.43%) |
 
-### Day 01 - 2
+### Day 1.2
 | Person | Runtime (ms) |
 |--------|--------------|
-| Luis | **0.5983 ms** |
-| Xico | 5.9732 ms (+898.36%) |
+| Xico Opt | **0.5618 ms** |
+| Xico | 5.9909 ms (+966.38%) |
 

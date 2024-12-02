@@ -1,8 +1,12 @@
+import sys
+sys.dont_write_bytecode = True
+
 import time
 from tabulate import tabulate
 from termcolor import colored
 
-from day01.xico_solution import part1, part2
+from day01.xico_solution     import part1 as day01_part1, part2 as day01_part2
+from day01.xico_solution_opt import part1 as day01_part1_opt, part2 as day01_part2_opt
 
 def calculate_runtime(func):
     def wrapper(*args, **kwargs):
@@ -19,7 +23,7 @@ def compare_functions_multirow(function_sets, labels, person_labels, return_stru
     for label, functions in zip(labels, function_sets):
         runtimes = []
         
-        for func in functions:
+        for func in functions[1:]:
             _, runtime = calculate_runtime(func)()
             runtimes.append(runtime)
 
@@ -48,7 +52,10 @@ def compare_functions_multirow(function_sets, labels, person_labels, return_stru
     if return_structured:
         return structured_data
 
-def generate_leaderboard(function_sets, labels, person_labels, readme_path):
+def generate_leaderboard(function_sets, person_labels, readme_path):
+    # Use the first argument in each function set to determine labels
+    labels = [functions[0] for functions in function_sets]
+
     structured_data = compare_functions_multirow(function_sets, labels, person_labels, return_structured=True)
     leaderboard_lines = []
     leaderboard_lines.append("# Leaderboard\n\n")
@@ -74,17 +81,17 @@ def generate_leaderboard(function_sets, labels, person_labels, readme_path):
 
     with open(readme_path, "w") as readme_file:
         readme_file.writelines(leaderboard_lines)
-    
-day_one = [part1, part2]
-day_two = [part2, part1]
 
-function_labels = ["Day 01 - 1", "Day 01 - 2"]
-person_labels = ["Xico", "Luis"]
+# Function sets
+day_one_part1 = ["Day 1.1", day01_part1, day01_part1_opt]
+day_one_part2 = ["Day 1.2", day01_part2, day01_part2_opt]
 
+# Person labels
+person_labels = ["Xico", "Xico Opt"]
+
+# Generate leaderboard using first argument as the line label
 generate_leaderboard(
-    [day_one, day_two],
-    function_labels,
+    [day_one_part1, day_one_part2],
     person_labels,
     "readme.md"
 )
-
