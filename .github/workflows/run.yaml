@@ -1,9 +1,6 @@
 name: Run Python Script on PR Merge
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
 
 jobs:
