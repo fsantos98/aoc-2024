@@ -32,6 +32,11 @@ jobs:
         git config user.name "GitHub Actions Bot"
         git config user.email "<>"
         git config --global --add safe.directory $GITHUB_WORKSPACE
+        
+    # Step 6: Pull the latest changes and resolve conflicts if any
+    - name: Pull latest changes
+      run: |
+        git pull origin ${{ github.head_ref }} --rebase
 
     - name: Commit and push changes
       run: |
