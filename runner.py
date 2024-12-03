@@ -6,8 +6,13 @@ import os
 from tabulate import tabulate
 from termcolor import colored
 
-from day01.xico_solution     import part1 as day01_part1, part2 as day01_part2
-from day01.xico_solution_opt import part1 as day01_part1_opt, part2 as day01_part2_opt
+from day01.xico_solution        import part1 as day01_part1, part2 as day01_part2
+from day01.xico_solution_opt    import part1 as day01_part1_opt, part2 as day01_part2_opt
+from day02.xico_solution        import part1 as day02_part1, part2 as day02_part2
+from day02.luis_solution        import part1 as luis_day02_part1, part2 as luis_day02_part2
+
+def zero():
+    pass
 
 def calculate_runtime(func):
     def wrapper(*args, **kwargs):
@@ -103,17 +108,20 @@ def generate_leaderboard(function_sets, person_labels, output_folder):
             output_file.writelines(content)
 
 # Function sets
-day_one_part1 = ["Day 1.1", day01_part1, day01_part1_opt]
-day_one_part2 = ["Day 1.2", day01_part2, day01_part2_opt]
+day_one_part1 = ["Day 1.1", day01_part1, zero]
+day_one_part2 = ["Day 1.2", day01_part2_opt, zero]
+day_two_part1 = ["Day 2.1", day02_part1, luis_day02_part1]
+day_two_part2 = ["Day 2.2", day02_part2, luis_day02_part2]
 
 # Person labels
-person_labels = ["Xico", "Xico Opt"]
+person_labels = ["Xico", "Luis"]
 
 output_folder = "leaderboards"
 
 # Generate leaderboard using first argument as the line label
 generate_leaderboard(
-    [day_one_part1, day_one_part2],
+    [day_one_part1, day_one_part2,
+     day_two_part1, day_two_part2],
     person_labels,
     output_folder
 )
