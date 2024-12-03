@@ -51,5 +51,7 @@ def part2():
 
     return total_safe_reports       
 
-print(part1())
-print(part2())
+#print(part1())
+#print(part2())
+# 463
+# 514
