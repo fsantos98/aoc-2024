@@ -52,6 +52,17 @@ def part1():
 
     return total
 
+def getNextCornerRect(coords):
+    print(f"Current input: {coords}")
+    coord_1 = coords[0]
+    coord_2 = coords[1]
+    coord_3 = coords[2]
+    
+    dist_x = coord_1[0] + coord_3[0] - coord_2[0]
+    dist_y = coord_1[1] + coord_3[1] - coord_2[1]
+
+    return [dist_x, dist_y]
+
 def part2():
     grid, curr_point = open_file("day06/input_example.txt")
 
@@ -62,15 +73,28 @@ def part2():
     grid_height = len(grid)
     total = 0
     changes_dir = []
+    objective = [-1,-1, -1]
     while(curr_point[0] > -1 and curr_point[0] < grid_width and curr_point[1] > -1 and curr_point[1] < grid_height):
-        
+        print(f"Objective: {objective}")
+        print(f"Curr: {curr_point}")
+        print(f"Direction: {directions_i}")
+        if objective[0] == curr_point[0] and objective[1] == curr_point[1] and directions_i:
+            print(f"we got there: {curr_point}")
+            total += 1
+
+        else:
+            print("not here")
+        print(f"total: {total}")
+
+
         if grid[curr_point[0]][curr_point[1]] == "#":
+            
             changes_dir.append([curr_point[0],curr_point[1]])
             print("found: ", curr_point[0], curr_point[1])
-            total += 1
             curr_point[0] -= DIRECTIONS[directions_i][0]
             curr_point[1] -= DIRECTIONS[directions_i][1]
             directions_i += 1
+            objective = [-1,-1,-1]
             if directions_i > 3:
                 directions_i = 0
         else:
@@ -86,10 +110,11 @@ def part2():
 
 
         if len(changes_dir) > 2:
-            print(f"Square is possible {changes_dir}:")
-            for i in changes_dir:
-                print(i)
+            a = getNextCornerRect(changes_dir[-3:])
+            a.append(directions_i)
+            objective = a
 
+            print(f"Trying to check this corner: {objective}")
         print("\n")
         print_grid(grid)
         print()
@@ -102,29 +127,9 @@ def part2():
 # start_time = time.perf_counter()
 # # for i in range(4000):
 # #     part1()
-# print(part2())
+print(part2())
 # elapsed_time = (time.perf_counter() - start_time) * 1000
 # print(f"Took {elapsed_time}ms")
-
-
-
-
-
-
-def getLeftRect(coords):
-    print(f"Current input: {coords}")
-    x = []
-    for c in coords:
-        x.append(c[0])
-    print(f"x: {x}")
-
-
-    if x[0] - x[1] > x[0] - x[2] + 1:
-        return [x[0], x[1], x[2] + 1]
-    else: return [x[1], x[2], x[0] - 1]
-
-a = [[1, 7], [2, 6], [3, 1]]
-print(getLeftRect(a))
 
 
 
